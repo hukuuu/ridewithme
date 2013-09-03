@@ -1,0 +1,177 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="ridewithmeApp">
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="components/es5-shim/es5-shim.js"></script>
+      <script src="components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#" name="top">Brand Name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="#/home"><i class="icon-home icon-white"></i> Home</a></li>
+              <li class="divider-vertical"></li>
+              <li><a href="#/search"><i class="icon-file icon-white"></i> Search</a></li>
+              <li class="divider-vertical"></li>
+              <li><a href="#/user"><i class="icon-envelope icon-white"></i> User</a></li>
+              <li class="divider-vertical"></li>
+              <li><a href="#/signup"><i class="icon-signal icon-white"></i> Signup</a></li>
+              <li class="divider-vertical"></li>
+            </ul>
+            <div class="btn-group pull-right">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href>
+                <i class="icon-user"></i> admin <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="icon-wrench"></i> Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="icon-share"></i> Logout</a></li>
+              </ul>
+            </div>
+          </div>
+          <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+      </div>
+      <!--/.navbar-inner -->
+    </div>
+    <!--/.navbar -->
+
+    <div id="fb-root"></div>
+
+    <!--
+      Below we include the Login Button social plugin. This button uses the JavaScript SDK to
+      present a graphical Login button that triggers the FB.login() function when clicked.
+
+      Learn more about options for the login button plugin:
+      /docs/reference/plugins/login/ -->
+    <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+
+
+
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view></div>
+
+    <script>
+      (function(d) {
+        var js, id = 'facebook-jssdk',
+          ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+      }(document));
+
+      window.fbAsyncInit = function() {
+        console.log('fb async init is called');
+        FB.init({
+          appId: '569938913069449', // App ID
+          channelUrl: 'http://ridewithme-testing.herokuapp.com/', // Channel File
+          status: true, // check login status
+          cookie: true, // enable cookies to allow the server to access the session
+          xfbml: true // parse XFBML
+        });
+
+        // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
+        // for any authentication related change, such as login, logout or session refresh. This means that
+        // whenever someone who was previously logged out tries to log in again, the correct case below 
+        // will be handled. 
+        FB.Event.subscribe('auth.authResponseChange', function(response) {
+          console.log('auth response changed: ',response);
+          window.fbresponse = response;
+          // Here we specify what we do with the response anytime this event occurs. 
+          if (response.status === 'connected') {
+            // The response object is returned with a status field that lets the app know the current
+            // login status of the person. In this case, we're handling the situation where they 
+            // have logged in to the app.
+            testAPI();
+          } else if (response.status === 'not_authorized') {
+            // In this case, the person is logged into Facebook, but not into the app, so we call
+            // FB.login() to prompt them to do so. 
+            // In real-life usage, you wouldn't want to immediately prompt someone to login 
+            // like this, for two reasons:
+            // (1) JavaScript created popup windows are blocked by most browsers unless they 
+            // result from direct interaction from people using the app (such as a mouse click)
+            // (2) it is a bad experience to be continually prompted to login upon page load.
+            FB.login();
+          } else {
+            // In this case, the person is not logged into Facebook, so we call the login() 
+            // function to prompt them to do so. Note that at this stage there is no indication
+            // of whether they are logged into the app. If they aren't then they'll see the Login
+            // dialog right after they log in to Facebook. 
+            // The same caveats as above apply to the FB.login() call here.
+            FB.login();
+          }
+        });
+      };
+
+      // Here we run a very simple test of the Graph API after login is successful. 
+      // This testAPI() function is only called in those cases. 
+
+      function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+          console.log('Good to see you, ' + response.name + '.');
+        });
+      }
+    </script>
+    <script src="components/angular/angular.js"></script>
+    <script src="components/angular-resource/angular-resource.js"></script>
+    <script src="components/angular-cookies/angular-cookies.js"></script>
+    <script src="components/angular-sanitize/angular-sanitize.js"></script>
+
+    <!-- build:js scripts/scripts.js -->
+    <script src="components/apigee.min.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/home.js"></script>
+    <script src="scripts/controllers/search.js"></script>
+    <script src="scripts/controllers/ride.js"></script>
+    <script src="scripts/controllers/user.js"></script>
+    <script src="scripts/controllers/signup.js"></script>
+
+    <script src="scripts/modules/authInterceptor.js"></script> 
+    <script src="scripts/services/apigee.js"></script>
+    <!-- endbuild -->
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
