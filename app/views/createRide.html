@@ -1,0 +1,35 @@
+
+<div class="span2"></div>
+<div class="span8">
+	<div class="well">
+		<h2 class="muted">List your Ride</h2>
+		<hr>
+		<form id="tab">
+			<label>Start Location</label>
+			<autocomplete on-change="fromChanged"></autocomplete>
+			<label>End Location</label>
+			<autocomplete on-change="toChanged"></autocomplete>
+			<label>When will be the ride</label>
+			<input type="date" ng-model="ride.when">
+			<label>Seats available</label>
+			<select ng-model="ride.seats">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+			</select> 
+			<label>Description</label>
+			<textarea ng-model="ride.description" value="Smith" rows="3" class="input-xlarge"></textarea>
+			<label>Price per seat</label>
+			<input ng-model="ride.price" type="number">
+			<hr>
+			<button ng-click="submit(ride)" class="btn btn-info">Submit</button>
+		</div>
+	</div>
+	<div class="span2"></div>

@@ -2,12 +2,16 @@
 
 angular.module('ridewithmeApp')
   .factory('apigee', function() {
-    console.log('message');
+    // Service logic
+    // ...
+
     var client = new Usergrid.Client({
       orgName: 'hukuuu',
       appName: 'ridewithme'
     });
 
-    window.client = client;
-    return client;
+    // Public API here
+    return {
+      client: client
+    };
   });

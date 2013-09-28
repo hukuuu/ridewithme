@@ -1,0 +1,20 @@
+<div class="" id="myModal">
+	<div class="modal-header">
+		<h3>Login</h3>
+		<h4>{{message}}</h4>
+	</div>
+	<div class="modal-body">
+		<form method="post" action='' name="login_form">
+			<p><input ng-model="username" type="text" class="span3" name="eid" id="username" placeholder="Username"></p>
+			<p><input ng-model="password" type="password" class="span3" name="passwd" placeholder="Password"></p>
+			<p>
+				<button ng-click="login(username, password)" class="btn btn-primary">Login</button>
+				<button ng-click="logout()" class="btn btn-info" type="submit" >Log out</button>
+			</p>
+		</form>
+	</div>
+	<div class="modal-footer">
+		New To MyWebsite.com?
+		<a href="#" class="btn btn-primary">Register</a>
+	</div>
+</div>

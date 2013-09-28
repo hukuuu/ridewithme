@@ -1,0 +1,40 @@
+  <div class="row">
+    <div class="span12 well">
+      <form action="" class="form-inline"> 
+        <autocomplete on-change="fromChanged"></autocomplete>
+        <autocomplete on-change="toChanged"></autocomplete>
+        <input type="date" ng-model="ride.when">
+        <select class="input-small" ng-model="ride.seats">
+          <option value="" selected>seats</option>
+          <option ng-repeat="index in [1,2,3,4,5,6,7,8,9,10]" value="{{index}}">{{index}}</option>
+        </select>
+        <a href ng-click="search(ride)" class="btn btn-danger"><i class="icon-search icon-white"></i> Search</a>
+      </form>
+    </div> 
+  </div>
+  <div class="row">
+    <div class="span3"></div>
+    <div class="span6">
+      <ul>
+        <li ng-repeat="r in rides">
+          <div class="well">
+            <div class="media">
+              <a class="pull-left" href="">
+                <img class="media-object" ng-src="{{r.owner.picture}}">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{r.from.name}} - {{r.to.name}}</h4>
+            <hr>
+                <p>{{r.description | limit:100}}</p>
+                <p>seats: {{r.seats}}</p>
+                <p>price/seat: {{r.price}}</p>
+                <p>date: {{r.when}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="span3"></div>
+  </div>
